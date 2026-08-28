@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Bell } from "lucide-react";
 
 import { ORGS, TYPES } from "@/features/queueless/data";
 import { OrgCard } from "@/features/queueless/components/OrgCard";
@@ -40,13 +41,22 @@ function Discovery() {
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Logo />
-          <button
-            type="button"
-            onClick={() => navigate({ to: "/" })}
-            className="text-sm text-muted-foreground transition hover:text-foreground"
-          >
-            Log out
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              aria-label="Notifications"
+              className="grid h-9 w-9 place-items-center rounded-xl border border-border text-muted-foreground transition hover:bg-muted hover:text-foreground"
+            >
+              <Bell className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate({ to: "/" })}
+              className="text-sm text-muted-foreground transition hover:text-foreground"
+            >
+              Log out
+            </button>
+          </div>
         </div>
       </header>
 

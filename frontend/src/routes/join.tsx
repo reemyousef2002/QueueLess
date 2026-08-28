@@ -19,7 +19,24 @@ export const Route = createFileRoute("/join")({
 
 function JoinPage() {
   const navigate = useNavigate();
-  const { selectedOrg: org, setTicket } = useQueue();
+  const { selectedOrg: org, ticket: activeTicket, joinQueue } = useQueue();
+
+  if (activeTicket) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-6 text-center font-sans">
+        <h1 className="font-display text-xl font-bold text-foreground">
+          You're already in a queue
+        </h1>
+        <p className="max-w-sm text-sm text-muted-foreground">
+          Ticket {activeTicket.code} at {activeTicket.org.name}. Leave that queue before joining
+          another one.
+        </p>
+        <PrimaryButton onClick={() => navigate({ to: "/tracking" })}>
+          View my ticket
+        </PrimaryButton>
+      </div>
+    );
+  }
 
   if (!org) {
     return (
@@ -86,7 +103,7 @@ function JoinPage() {
         <PrimaryButton
           className="mt-6 w-full"
           onClick={() => {
-            setTicket({
+            joinQueue({
               code: ticketNumber,
               org,
               peopleAhead,

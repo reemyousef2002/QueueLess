@@ -84,6 +84,14 @@ function Landing() {
               <button
                 type="button"
                 onClick={() => navigate({ to: "/auth" })}
+                aria-label="Notifications"
+                className="grid h-9 w-9 place-items-center rounded-xl border border-hairline text-ink-foreground transition hover:bg-hairline"
+              >
+                <Bell className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate({ to: "/auth" })}
                 className="rounded-xl border border-hairline px-4 py-2 text-sm font-semibold text-ink-foreground transition hover:bg-hairline"
               >
                 Log in

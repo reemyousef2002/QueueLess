@@ -24,7 +24,7 @@ export const Route = createFileRoute("/discovery")({
 
 function Discovery() {
   const navigate = useNavigate();
-  const { setSelectedOrg } = useQueue();
+  const { setSelectedOrg, ticket, peopleAhead } = useQueue();
   const [filter, setFilter] = useState("all");
 
   const filtered = useMemo(
@@ -68,6 +68,27 @@ function Discovery() {
           Check resource availability and crowd levels before you join a queue.
         </p>
 
+        {ticket && (
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Active ticket
+              </p>
+              <p className="mt-1 text-sm font-semibold text-foreground">
+                <span className="font-mono">{ticket.code}</span> · {ticket.org.name} ·{" "}
+                {peopleAhead === 0 ? "It's your turn" : `${peopleAhead} ahead`}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => navigate({ to: "/tracking" })}
+              className="rounded-xl bg-ink px-4 py-2 text-sm font-semibold text-ink-foreground transition hover:opacity-90"
+            >
+              Track my queue
+            </button>
+          </div>
+        )}
+
         <div className="mt-6 flex flex-wrap gap-2">
           {chips.map((c) => (
             <button
@@ -90,6 +111,9 @@ function Discovery() {
             <OrgCard
               key={org.id}
               org={org}
+              joined={ticket?.org.id === org.id}
+              blocked={Boolean(ticket) && ticket?.org.id !== org.id}
+              onView={() => navigate({ to: "/tracking" })}
               onJoin={(o) => {
                 setSelectedOrg(o);
                 navigate({ to: "/join" });

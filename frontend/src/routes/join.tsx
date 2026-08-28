@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { TYPES } from "@/features/queueless/data";
 import { Logo, PrimaryButton, StatusPill } from "@/features/queueless/components/Primitives";
@@ -21,7 +20,6 @@ export const Route = createFileRoute("/join")({
 function JoinPage() {
   const navigate = useNavigate();
   const { selectedOrg: org, setTicket } = useQueue();
-  const [priority, setPriority] = useState(false);
 
   if (!org) {
     return (
@@ -34,7 +32,7 @@ function JoinPage() {
   }
 
   const type = TYPES[org.type];
-  const peopleAhead = priority ? Math.max(1, Math.round(org.queueSize / 3)) : org.queueSize;
+  const peopleAhead = org.queueSize;
   const ticketNumber = `${org.prefix}-${100 + org.queueSize + 4}`;
   const estWait = peopleAhead * org.avgService;
 
@@ -85,23 +83,6 @@ function JoinPage() {
           </div>
         </div>
 
-        <label className="mt-6 flex items-start gap-3 rounded-2xl border border-border bg-card p-4">
-          <input
-            type="checkbox"
-            checked={priority}
-            onChange={(e) => setPriority(e.target.checked)}
-            className="mt-0.5 h-4 w-4 accent-[var(--brand)]"
-          />
-          <span>
-            <span className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-              <ShieldCheck className="h-4 w-4 text-brand" /> I have a verified priority registration
-            </span>
-            <span className="mt-1 block text-xs text-muted-foreground">
-              Elderly, disability, pregnant, or caregiver of young children.
-            </span>
-          </span>
-        </label>
-
         <PrimaryButton
           className="mt-6 w-full"
           onClick={() => {
@@ -110,7 +91,6 @@ function JoinPage() {
               org,
               peopleAhead,
               avgService: org.avgService,
-              priority,
             });
             navigate({ to: "/tracking" });
           }}

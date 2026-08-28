@@ -6,7 +6,6 @@ export type Ticket = {
   org: Org;
   peopleAhead: number;
   avgService: number;
-  priority: boolean;
 };
 
 type QueueState = {

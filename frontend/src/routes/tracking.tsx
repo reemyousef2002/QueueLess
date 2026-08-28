@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Clock, LogOut, Pause, Play, ShieldCheck, Users } from "lucide-react";
+import { ArrowLeft, Clock, LogOut, Pause, Play, Users } from "lucide-react";
 
 import { TYPES } from "@/features/queueless/data";
 import { Logo, PrimaryButton, SecondaryButton } from "@/features/queueless/components/Primitives";
@@ -77,11 +77,6 @@ function Tracking() {
           <div className="flex flex-wrap items-center gap-2 p-5">
             <type.icon className="h-4 w-4 text-muted-foreground" />
             <span className="font-display text-base font-bold text-foreground">{ticket.org.name}</span>
-            {ticket.priority && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-success-soft px-2.5 py-1 text-xs font-semibold text-success">
-                <ShieldCheck className="h-3.5 w-3.5" /> Priority
-              </span>
-            )}
           </div>
         </div>
 

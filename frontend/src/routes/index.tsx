@@ -43,7 +43,6 @@ const BENEFITS = [
     title: "Priority, protected",
     body: "Elderly, disabled, pregnant, and caregiver visitors get a dedicated lane.",
   },
-  { icon: Bell, title: "Stay in the loop", body: "A notification finds you well before your turn arrives." },
 ];
 
 const STEPS = [

@@ -2,7 +2,7 @@
 
 QueueLess turns physical lines at clinics, bakeries, water points, community kitchens, university offices, and government offices into a live ticket that people can track from anywhere.
 
-This repository contains the **frontend application**. The backend is planned to be built with **Laravel** and will expose a REST API that the frontend consumes.
+This repository contains both halves of the app: [`frontend/`](frontend) (TanStack Start + React) and [`backend/`](backend) (Laravel REST API).
 
 ---
 
@@ -61,38 +61,17 @@ The app will be available at `http://localhost:8080`.
 
 ---
 
-## Backend (planned: Laravel)
+## Backend (Laravel)
 
-The backend will be a separate **Laravel** application that provides a REST API for QueueLess. It will handle:
+The backend is a **Laravel 13** REST API implementing the System Analysis
+Document's 19 functional requirements: Sanctum token auth, the 10-entity
+database design, all documented endpoints, and the queue/notification
+business logic behind them (ticket generation, position tracking, priority
+handling, resource-status and crowd-density reporting, staff/admin
+dashboards, and the public "Now Serving" display).
 
-- User authentication and authorization (Sanctum or JWT tokens).
-- Organization / service management.
-- Queue logic: ticket generation, position tracking, priority handling.
-- Real-time status updates (optional: Laravel Echo + Pusher / Reverb for live wait times).
-- Admin dashboard for service providers.
-
-### Suggested Laravel stack
-
-- **Laravel 11+** — PHP framework.
-- **Laravel Sanctum** — API token authentication for the mobile/web frontend.
-- **MySQL / PostgreSQL** — primary database.
-- **Redis** — caching and queue driver.
-- **Laravel Echo + Reverb / Pusher** — real-time updates for ticket tracking.
-- **Laravel Scout** (optional) — search for services.
-
-### Suggested API endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/register` | Register a new user |
-| POST | `/api/login` | Authenticate a user |
-| POST | `/api/logout` | Revoke user token |
-| GET | `/api/organizations` | List all services |
-| GET | `/api/organizations/{id}` | Get service details |
-| POST | `/api/tickets` | Join a queue |
-| GET | `/api/tickets/{code}` | Track a ticket |
-| DELETE | `/api/tickets/{code}` | Cancel a ticket |
-| GET | `/api/tickets/{code}/status` | Poll live queue status |
+See **[`backend/README.md`](backend/README.md)** for the full stack,
+setup instructions, and seeded test accounts.
 
 ### Frontend ↔ Backend communication
 
@@ -100,26 +79,19 @@ The frontend will communicate with Laravel via `fetch` requests:
 
 - Include the bearer token in the `Authorization` header after login.
 - Use TanStack Query for caching, background refetching, and optimistic updates.
-- Replace the mock data in `src/features/queueless/data.ts` with API calls.
-- Replace the React Context ticket state with server-state managed by TanStack Query.
 
-Example environment variable:
+Set the API's base URL in `frontend/.env`:
 
 ```env
-VITE_API_BASE_URL=https://your-laravel-app.test/api
+VITE_API_URL=http://localhost:8002/api
 ```
 
 ---
 
 ## Environment variables
 
-Create a `.env` file in the frontend root if needed:
-
-```env
-VITE_API_BASE_URL=http://localhost:8000/api
-```
-
-The Laravel backend should have its own `.env` file with database, Redis, and Sanctum credentials.
+- **Frontend** (`frontend/.env`): `VITE_API_URL` — the Laravel API's base URL.
+- **Backend** (`backend/.env`, gitignored — copy from `backend/.env.example`): database credentials, `APP_URL`, `APP_KEY`. See [`backend/README.md`](backend/README.md) for setup.
 
 ---
 
@@ -130,14 +102,4 @@ The Laravel backend should have its own `.env` file with database, Redis, and Sa
 
 ---
 
-## Next steps
-
-1. Set up the Laravel repository and configure authentication.
-2. Create migrations for `users`, `organizations`, `queues`, and `tickets`.
-3. Implement the API endpoints listed above.
-4. Update the frontend to call the Laravel API instead of using mock data.
-5. Add real-time updates for ticket tracking.
-
----
-
-Built with TanStack Start, React, TypeScript, Tailwind CSS, and planned Laravel backend.
+Built with TanStack Start, React, TypeScript, Tailwind CSS — and Laravel 13.

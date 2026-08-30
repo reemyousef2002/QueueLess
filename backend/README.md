@@ -17,12 +17,12 @@ composer install
 cp .env.example .env        # then set DB_* to your MySQL credentials
 php artisan key:generate
 php artisan migrate --seed
-php artisan serve --port=8001
+php artisan serve --port=8002
 ```
 
-The app currently runs at **http://localhost:8001** (port 8000 was already
-taken locally by another project on this machine — change `APP_URL` and
-`--port` freely if that's not the case for you).
+The app currently runs at **http://localhost:8002** (ports 8000 and 8001
+were already taken locally by another project on this machine — change
+`APP_URL` and `--port` freely if that's not the case for you).
 
 ## Seeded accounts (all passwords: `password`)
 
